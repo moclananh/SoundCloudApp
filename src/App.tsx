@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import InputTodo from "./Components/todos/InputTodo";
+import InputTodo from "./components/todos/InputTodo";
 
 function App() {
   const [todoList, setTodoList] = useState(["default todo"]);
