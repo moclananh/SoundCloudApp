@@ -1,4 +1,5 @@
 import { USER_URL } from "../constants/endpoint";
+import { CreateUserRequest } from "../features/users/types/user.table.type";
 
 const access_token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0b2tlbiBsb2dpbiIsImlzcyI6ImZyb20gc2VydmVyIiwiX2lkIjoiNjc4ZTBhMzEwOGE1YWMxMzYyMWRlYTY1IiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJhZGRyZXNzIjoiVmlldE5hbSIsImlzVmVyaWZ5Ijp0cnVlLCJuYW1lIjoiSSdtIGFkbWluIiwidHlwZSI6IlNZU1RFTSIsInJvbGUiOiJBRE1JTiIsImdlbmRlciI6Ik1BTEUiLCJhZ2UiOjY5LCJpYXQiOjE3Mzc0MjY2MTMsImV4cCI6MTgyMzgyNjYxM30.TJ9jt_VV0i6_EAqavzcxMXNAeDd955MP05gOg_JNWxE";
@@ -14,4 +15,28 @@ export const getUserList = async () => {
   const dataResponse = await response.json();
   console.log(dataResponse);
   return dataResponse.data.result;
+};
+
+export const createUser = async (request: CreateUserRequest) => {
+  try {
+    const response = await fetch(`${USER_URL}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access_token}`,
+      },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+
+    const dataResponse = await response.json();
+    console.log("data response from services: ", dataResponse);
+    return dataResponse;
+  } catch (error) {
+    console.error("Failed to create user:", error);
+    throw error;
+  }
 };
