@@ -6,22 +6,19 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import styles from "./UsersTable.module.css";
+import { useEffect, useState } from "react";
+import { getUserList } from "../../../../services/users.service";
+import { IUser } from "../../types/user.table.type";
 
 const UsersTable = () => {
-  const users = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      role: "admin",
-    },
-    {
-      id: 2,
-      name: "Jane Doe",
-      email: "jane.doe@example.com",
-      role: "user",
-    },
-  ];
+  const [users, setUsers] = useState<IUser[]>([]);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await getUserList();
+      setUsers(response);
+    };
+    fetchUsers();
+  }, []);
 
   return (
     <TableContainer component={Paper} className={styles.tableContainer}>
@@ -37,11 +34,11 @@ const UsersTable = () => {
         <TableBody>
           {users.map((user) => (
             <TableRow
-              key={user.id}
+              key={user._id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {user.id}
+                {user._id}
               </TableCell>
               <TableCell align="right">{user.name}</TableCell>
               <TableCell align="right">{user.email}</TableCell>
