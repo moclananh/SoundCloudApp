@@ -7,6 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import styles from "./UsersTable.module.css";
 import { IUser } from "../../types/user.table.type";
+import { Button } from "@mui/material";
 
 interface UsersTableProps {
   users: IUser[];
@@ -18,10 +19,13 @@ const UsersTable = ({ users }: UsersTableProps) => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Role</TableCell>
+            <TableCell>Id</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Gender</TableCell>
+            <TableCell>Address</TableCell>
+            <TableCell>Role</TableCell>
+            <TableCell style={{ alignItems: "center" }}>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -30,12 +34,20 @@ const UsersTable = ({ users }: UsersTableProps) => {
               key={user._id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {user._id}
+              <TableCell>{user._id}</TableCell>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.gender}</TableCell>
+              <TableCell>{user.address}</TableCell>
+              <TableCell>{user.role}</TableCell>
+              <TableCell style={{ display: "flex", gap: "8px" }}>
+                <Button variant="outlined" color="secondary">
+                  Update
+                </Button>
+                <Button variant="outlined" color="error">
+                  Delete
+                </Button>
               </TableCell>
-              <TableCell align="right">{user.name}</TableCell>
-              <TableCell align="right">{user.email}</TableCell>
-              <TableCell align="right">{user.role}</TableCell>
             </TableRow>
           ))}
         </TableBody>

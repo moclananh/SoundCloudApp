@@ -1,0 +1,53 @@
+/* Container for form items */
+.form-item {
+  margin-bottom: 4px;
+}
+
+/* Label styling */
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Input field styling */
+.ant-input,
+.ant-input-password,
+.ant-select-selector {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Input field focus */
+.ant-input:focus,
+.ant-input-password:focus,
+.ant-select-selector:focus {
+  border-color: #40a9ff;
+  box-shadow: 0 0 5px rgba(24, 144, 255, 0.2);
+}
+
+/* Modal styling */
+.ant-modal {
+  border-radius: 8px;
+  height: 100vh;
+}
+
+.ant-modal-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Button alignment */
+.ant-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Form container spacing */
+.modal-content {
+  padding: 16px;
+}

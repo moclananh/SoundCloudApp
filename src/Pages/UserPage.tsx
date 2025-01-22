@@ -41,7 +41,7 @@ const UserPage = () => {
         <h2>User Management</h2>
         <div>
           <Button
-            variant="outlined"
+            variant="contained"
             startIcon={<AddIcon />}
             onClick={() => setOpen(true)}
           >
