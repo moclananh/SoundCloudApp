@@ -11,9 +11,11 @@ import { Button } from "@mui/material";
 
 interface UsersTableProps {
   users: IUser[];
+  onUpdate: (user: IUser) => void;
+  onDelete: (userId: string) => void;
 }
 
-const UsersTable = ({ users }: UsersTableProps) => {
+const UsersTable = ({ users, onUpdate, onDelete }: UsersTableProps) => {
   return (
     <TableContainer component={Paper} className={styles.tableContainer}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -41,10 +43,18 @@ const UsersTable = ({ users }: UsersTableProps) => {
               <TableCell>{user.address}</TableCell>
               <TableCell>{user.role}</TableCell>
               <TableCell style={{ display: "flex", gap: "8px" }}>
-                <Button variant="outlined" color="secondary">
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => onUpdate(user)}
+                >
                   Update
                 </Button>
-                <Button variant="outlined" color="error">
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => onDelete(user._id)}
+                >
                   Delete
                 </Button>
               </TableCell>

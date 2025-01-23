@@ -1,12 +1,18 @@
 import { Modal, Input, Select, message } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
-import { CreateUserRequest, Role, Gender } from "../../types/user.table.type";
-import { createUser } from "../../../../services/users.service";
+import {
+  CreateUserRequest,
+  Role,
+  Gender,
+  IUser,
+} from "../../types/user.table.type";
+import { createUser, updateUser } from "../../../../services/users.service";
 import styles from "./UserForm.module.css";
 interface UserFormProps {
   onOk: (user: CreateUserRequest) => void;
   onClose: () => void;
+  selectedUser: IUser | null;
 }
 
 const userSchema = z.object({
@@ -23,8 +29,9 @@ const userSchema = z.object({
   }),
 });
 
-const UserForm = ({ onOk, onClose }: UserFormProps) => {
-  const [formData, setFormData] = useState<CreateUserRequest>({
+const UserForm = ({ onOk, onClose, selectedUser }: UserFormProps) => {
+  const [formData, setFormData] = useState<IUser>({
+    _id: "",
     name: "",
     email: "",
     password: "",
@@ -35,6 +42,21 @@ const UserForm = ({ onOk, onClose }: UserFormProps) => {
   });
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (selectedUser) {
+      setFormData({
+        _id: selectedUser._id,
+        name: selectedUser.name,
+        email: selectedUser.email,
+        age: selectedUser.age,
+        password: selectedUser.password,
+        gender: selectedUser.gender,
+        address: selectedUser.address,
+        role: selectedUser.role,
+      });
+    }
+  }, [selectedUser]);
 
   // Handle input change
   const handleChange =
@@ -56,14 +78,19 @@ const UserForm = ({ onOk, onClose }: UserFormProps) => {
   // Handle form submission
   const handleOk = async () => {
     if (!validateForm()) return;
-
+    console.log(formData);
     setLoading(true);
     try {
-      const response = await createUser(formData);
-      message.success("User added successfully!");
+      const response = selectedUser
+        ? await updateUser({ ...selectedUser, ...formData })
+        : await createUser(formData);
+      message.success(
+        selectedUser ? "User updated successfully!" : "User added successfully!"
+      );
       onOk(response);
       // Reset form after successful submission
       setFormData({
+        _id: "",
         name: "",
         email: "",
         password: "",
@@ -84,7 +111,7 @@ const UserForm = ({ onOk, onClose }: UserFormProps) => {
 
   return (
     <Modal
-      title="Add new user"
+      title="User Info"
       open={true}
       onOk={handleOk}
       onCancel={onClose}

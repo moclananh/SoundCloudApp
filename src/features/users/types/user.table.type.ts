@@ -2,7 +2,8 @@ export interface IUser {
   _id: string;
   name: string;
   email: string;
-  role: string;
+  password: string;
+  role: Role;
   age: number;
   gender: Gender;
   address: string;
@@ -17,8 +18,6 @@ export interface CreateUserRequest {
   address: string;
   role: Role;
 }
-
-export type UpdateUserRequest = Partial<CreateUserRequest>;
 
 export enum Role {
   USER = "USER",

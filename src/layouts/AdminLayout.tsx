@@ -2,7 +2,8 @@ import { Outlet, Link } from "react-router-dom";
 import { TeamOutlined, HomeOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { login } from "../services/auth.service";
 
 const items: MenuProps["items"] = [
   {
@@ -32,6 +33,9 @@ const Header = () => {
 };
 
 const AdminLayout = () => {
+  useEffect(() => {
+    login();
+  }, []);
   return (
     <div>
       <Header />

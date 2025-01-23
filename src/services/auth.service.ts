@@ -11,7 +11,10 @@ export const login = async () => {
       "Content-Type": "application/json",
     },
   });
-  const data = await response.json();
-  console.log(data);
-  return data;
+  const dataResponse = await response.json();
+  console.log(dataResponse);
+  if (dataResponse) {
+    localStorage.setItem("access_token", dataResponse.data.access_token);
+    return dataResponse;
+  }
 };

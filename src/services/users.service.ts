@@ -1,11 +1,10 @@
 import { USER_URL } from "../constants/endpoint";
 import {
   CreateUserRequest,
-  UpdateUserRequest,
+  IUser,
 } from "../features/users/types/user.table.type";
 
-const access_token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0b2tlbiBsb2dpbiIsImlzcyI6ImZyb20gc2VydmVyIiwiX2lkIjoiNjc4ZTBhMzEwOGE1YWMxMzYyMWRlYTY1IiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJhZGRyZXNzIjoiVmlldE5hbSIsImlzVmVyaWZ5Ijp0cnVlLCJuYW1lIjoiSSdtIGFkbWluIiwidHlwZSI6IlNZU1RFTSIsInJvbGUiOiJBRE1JTiIsImdlbmRlciI6Ik1BTEUiLCJhZ2UiOjY5LCJpYXQiOjE3Mzc1MTQwNDcsImV4cCI6MTgyMzkxNDA0N30.cJ2VwSbjntX55efbk6K9XT1X7iTdbx86tGV-ATD88Nk";
+const access_token = localStorage.getItem("access_token");
 
 export const getUserList = async () => {
   const response = await fetch(`${USER_URL}/all`, {
@@ -65,9 +64,9 @@ export const createUser = async (request: CreateUserRequest) => {
   }
 };
 
-export const updateUser = async (request: UpdateUserRequest, id: string) => {
+export const updateUser = async (request: IUser) => {
   try {
-    const response = await fetch(`${USER_URL}/${id}`, {
+    const response = await fetch(`${USER_URL}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -94,6 +93,10 @@ export const deleteUser = async (userId: string) => {
   try {
     const response = await fetch(`${USER_URL}/${userId}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access_token}`,
+      },
     });
     if (!response.ok) throw new Error(response.statusText);
     console.log("User deleted successfully!");
